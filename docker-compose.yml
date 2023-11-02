@@ -1,0 +1,38 @@
+version: '3'
+name: 'liwasi-tech'
+services:
+  smb-database:
+    build:
+      context: ./backend/internal/infraestructure/database/postgres
+    ports:
+      - '5432:5432'
+    networks: 
+      - liwasi-smb-network
+
+  smb-rest:
+    build:
+      context: ./backend
+    environment:
+      - POSTGRES_HOST=smb-database
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DATABASE=liwasi-smb-database
+      - GIN_MODE=release
+    ports:
+      - '8010:8010'
+    networks:
+      - liwasi-smb-network
+
+  smb-app-front:
+    build:
+      context: ./frontend/liwasi-smb-app
+    environment:
+      - SMB_API_REST_HOST=smb-rest
+    ports:
+      - '3000:3000'
+    networks:
+      - liwasi-smb-network
+
+networks:
+  liwasi-smb-network:
