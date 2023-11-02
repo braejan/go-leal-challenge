@@ -9,7 +9,7 @@ ENV POSTGRES_HOST=localhost
 ENV POSTGRES_PORT=5432
 ENV POSTGRES_USER=postgres
 ENV POSTGRES_PASSWORD=postgres
-ENV POSTGRES_DB=liwasi-smb-database
+ENV POSTGRES_DB=leal-challenge-database
 
 # Puerto expuesto por el contenedor
 EXPOSE 5432

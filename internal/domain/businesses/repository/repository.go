@@ -9,8 +9,8 @@ import (
 
 type BusinessRepository interface {
 	CreateBusiness(ctx context.Context, business *model.Business) error
-	GetBusinessByID(ctx context.Context, id uuid.UUID) (*model.Business, error)
+	GetBusinessByID(ctx context.Context, ID uuid.UUID) (*model.Business, error)
 	UpdateBusiness(ctx context.Context, business *model.Business) error
-	DeleteBusiness(ctx context.Context, id uuid.UUID) error
+	DeleteBusinessByID(ctx context.Context, ID uuid.UUID) error
 	ListBusinesses(ctx context.Context) ([]*model.Business, error)
 }
