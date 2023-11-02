@@ -1,6 +1,8 @@
 package postgres
 
 import (
+	"context"
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -70,7 +72,53 @@ func migrations(db *gorm.DB) (err error) {
 		&campaignModel.Campaign{},
 	)
 	if err != nil {
-		log.Println("Finish automigrate with error", err)
+		log.Fatal("Finish automigrate with error", err)
+	}
+	err = businessMigrationData(db)
+	if err != nil {
+		log.Fatal("business migration error", err)
+	}
+	err = branchMigrationData(db)
+	if err != nil {
+		log.Fatal("branch migration error", err)
+	}
+	return
+}
+
+func businessMigrationData(db *gorm.DB) (err error) {
+	if db.Migrator().HasTable(&businessModel.Business{}) {
+		if err = db.First(&businessModel.Business{}).Error; errors.Is(err, gorm.ErrRecordNotFound) {
+			ctx := context.Background()
+			business := &businessModel.Business{
+				Name: "Texaco",
+			}
+			err = db.WithContext(ctx).Create(business).Error
+		}
+	}
+	return
+}
+
+func branchMigrationData(db *gorm.DB) (err error) {
+	if db.Migrator().HasTable(&branchModel.Branch{}) {
+		if err = db.First(&branchModel.Branch{}).Error; errors.Is(err, gorm.ErrRecordNotFound) {
+			ctx := context.Background()
+			business := &businessModel.Business{}
+			err = db.First(business).Error
+			if err != nil {
+				return
+			}
+			branches := []*branchModel.Branch{
+				{
+					BusinessID: business.ID,
+					Name:       "Sucursal 1",
+				},
+				{
+					BusinessID: business.ID,
+					Name:       "Sucursal 2",
+				},
+			}
+			err = db.WithContext(ctx).Create(branches).Error
+		}
 	}
 	return
 }
