@@ -7,11 +7,15 @@ import (
 
 	"github.com/braejan/go-leal-challenge/internal/db/postgres/migration/branches"
 	"github.com/braejan/go-leal-challenge/internal/db/postgres/migration/businesses"
+	"github.com/braejan/go-leal-challenge/internal/db/postgres/migration/lealcoins"
+	"github.com/braejan/go-leal-challenge/internal/db/postgres/migration/lealpoints"
 	"github.com/braejan/go-leal-challenge/internal/db/postgres/migration/transactions"
 	"github.com/braejan/go-leal-challenge/internal/db/postgres/migration/users"
 	branchModel "github.com/braejan/go-leal-challenge/internal/domain/branches/model"
 	businessModel "github.com/braejan/go-leal-challenge/internal/domain/businesses/model"
 	campaignModel "github.com/braejan/go-leal-challenge/internal/domain/campaigns/model"
+	lealcoinsModel "github.com/braejan/go-leal-challenge/internal/domain/lealcoins/model"
+	lealpointsModel "github.com/braejan/go-leal-challenge/internal/domain/lealpoints/model"
 	transactionsModel "github.com/braejan/go-leal-challenge/internal/domain/transactions/model"
 	userModel "github.com/braejan/go-leal-challenge/internal/domain/users/model"
 
@@ -77,6 +81,8 @@ func migrations(db *gorm.DB) (err error) {
 		&campaignModel.Campaign{},
 		&userModel.User{},
 		&transactionsModel.Transaction{},
+		&lealcoinsModel.LealCoin{},
+		&lealpointsModel.LealPoint{},
 	)
 	if err != nil {
 		log.Fatal("Finish automigrate with error: ", err)
@@ -96,6 +102,14 @@ func migrations(db *gorm.DB) (err error) {
 	err = transactions.TransactionsMigrationData(db)
 	if err != nil {
 		log.Fatal("transactions migration error: ", err)
+	}
+	err = lealcoins.LealCoinMigrationData(db)
+	if err != nil {
+		log.Fatal("lealcoins migration error: ", err)
+	}
+	err = lealpoints.LealPointMigrationData(db)
+	if err != nil {
+		log.Fatal("lealpoints migration error: ", err)
 	}
 	return
 }

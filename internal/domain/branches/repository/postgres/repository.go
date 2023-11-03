@@ -30,7 +30,7 @@ func (repo *postgresBranchRepository) GetBranchByID(ctx context.Context, ID uuid
 		return
 	}
 	branch = &model.Branch{
-		ID: ID,
+		ID: &ID,
 	}
 	err = repo.db.WithContext(ctx).First(branch).Error
 	if err != nil {
@@ -44,7 +44,7 @@ func (repo *postgresBranchRepository) GetBranchesByBusinessID(ctx context.Contex
 		return
 	}
 	branch := &model.Branch{
-		BusinessID: businessID,
+		BusinessID: &businessID,
 	}
 	err = repo.db.WithContext(ctx).Find(&branches, branch).Error
 	if err != nil {
@@ -57,7 +57,7 @@ func (repo *postgresBranchRepository) UpdateBranch(ctx context.Context, branch *
 		err = gorm.ErrInvalidValue
 		return
 	}
-	_, err = repo.GetBranchByID(ctx, branch.ID)
+	_, err = repo.GetBranchByID(ctx, *branch.ID)
 	if err != nil {
 		return
 	}
@@ -72,5 +72,5 @@ func (repo *postgresBranchRepository) DeleteBranchByID(ctx context.Context, ID u
 	if err != nil {
 		return
 	}
-	return repo.db.WithContext(ctx).Delete(&model.Branch{ID: ID}).Error
+	return repo.db.WithContext(ctx).Delete(&model.Branch{ID: &ID}).Error
 }

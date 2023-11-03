@@ -56,7 +56,7 @@ func TransactionsMigrationData(db *gorm.DB) (err error) {
 				return
 			}
 			for _, branch := range branches {
-				err = db.Create(generateTransactions(&branch.ID, user.ID)).Error
+				err = db.Create(generateTransactions(branch.ID, user.ID)).Error
 				if err != nil {
 					return
 				}

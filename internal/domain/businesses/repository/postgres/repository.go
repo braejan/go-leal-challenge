@@ -30,7 +30,7 @@ func (repo *postgresBusinessRepository) GetBusinessByID(ctx context.Context, ID 
 		return
 	}
 	business = &model.Business{
-		ID: ID,
+		ID: &ID,
 	}
 	err = repo.db.WithContext(ctx).First(business).Error
 	if err != nil {
@@ -39,7 +39,7 @@ func (repo *postgresBusinessRepository) GetBusinessByID(ctx context.Context, ID 
 	return
 }
 func (repo *postgresBusinessRepository) UpdateBusiness(ctx context.Context, business *model.Business) (err error) {
-	_, err = repo.GetBusinessByID(ctx, business.ID)
+	_, err = repo.GetBusinessByID(ctx, *business.ID)
 	if err != nil {
 		return
 	}
@@ -51,7 +51,7 @@ func (repo *postgresBusinessRepository) DeleteBusinessByID(ctx context.Context, 
 		return
 	}
 	business := &model.Business{
-		ID: ID,
+		ID: &ID,
 	}
 	return repo.db.WithContext(ctx).Delete(business).Error
 }
