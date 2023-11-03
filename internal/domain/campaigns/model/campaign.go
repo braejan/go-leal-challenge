@@ -8,14 +8,12 @@ import (
 )
 
 type Campaign struct {
-	gorm.Model         `json:"-"`
-	ID                 uuid.UUID `json:"id" gorm:"type:uuid;default:uuid_generate_v4();primaryKey"`
-	BusinessID         uuid.UUID `json:"business_id" gorm:"type:uuid;not null"`
-	BranchID           uuid.UUID `json:"branch_id" gorm:"type:uuid"`
-	Name               string    `json:"name" gorm:"not null"`
-	StartDate          time.Time `json:"start_date" gorm:"not null"`
-	EndDate            time.Time `json:"end_date" gorm:"not null"`
-	RewardMultiplier   float64   `json:"reward_multiplier" gorm:"not null"`
-	MinPurchaseAmount  float64   `json:"min_purchase_amount" gorm:"not null"`
-	TotalPurchaseCount int       `json:"total_purchase_count" gorm:"not null"`
+	gorm.Model       `json:"-"`
+	ID               uuid.UUID `json:"id" gorm:"type:uuid;default:uuid_generate_v4();primaryKey"`
+	BusinessID       uuid.UUID `json:"business_id" gorm:"type:uuid;not null"`
+	BranchID         uuid.UUID `json:"branch_id" gorm:"type:uuid"`
+	Name             string    `json:"name" gorm:"not null"`
+	StartDate        time.Time `json:"start_date" gorm:"not null"`
+	EndDate          time.Time `json:"end_date" gorm:"not null"`
+	RewardMultiplier float64   `json:"reward_multiplier" gorm:"not null"`
 }
