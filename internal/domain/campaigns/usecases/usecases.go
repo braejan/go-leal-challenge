@@ -51,7 +51,7 @@ func (u *campaingUsecases) CreateNewCampaign(campaign model.Campaign) (err error
 	if err != nil {
 		return
 	}
-	if found.BusinessID != campaign.BusinessID {
+	if *found.BusinessID != *campaign.BusinessID {
 		err = gorm.ErrInvalidValue
 		return
 	}

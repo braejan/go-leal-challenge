@@ -1,17 +1,92 @@
-# Leal Online Technical Challenge
-Leal is a revolutionary startup that empowers people to earn rewards for their day-to-day purchases while driving incremental sales for participating businesses. Our platform offers users the opportunity to acquire Leal Points and/or Cashback as a token of appreciation for their purchases at our partnered brands and stores, adhering to the following conditions:
+# Reto Técnico Leal Online
 
-### Leal Points:
-- Points are earned based on the conversion factor set by the participating business, where one point equals a specific value in the local currency.
-- Points can only be redeemed at the specific business where they were earned.
-- Redemption of points is facilitated according to the predefined reward table specified by the business.
+Leal es una innovadora startup que empodera a las personas para que ganen recompensas por sus compras diarias, al mismo tiempo que impulsa las ventas incrementales para los negocios participantes. Nuestra plataforma ofrece a los usuarios la oportunidad de adquirir Puntos Leal y/o Cashback como muestra de agradecimiento por sus compras en nuestras marcas y tiendas asociadas, siguiendo las siguientes condiciones:
+
+### Puntos Leal:
+- Los puntos se ganan según el factor de conversión establecido por el negocio participante, donde un punto equivale a un valor específico en la moneda local.
+- Los puntos solo pueden ser redimidos en el negocio específico donde fueron ganados.
+- La redención de puntos se realiza según la tabla de premios predefinida especificada por el negocio.
 
 ### Cashback:
-- Leal Coins are earned under the same conditions as points.
-- Leal Coins can be used at any store within the Leal network.
-- The redemption equivalence is set at 1 Leal Coin = $1.
+- Leal Coins se ganan bajo las mismas condiciones que los puntos.
+- Leal Coins pueden ser utilizados en cualquier tienda dentro de la red Leal.
+- La equivalencia de redención está establecida en 1 Leal Coin = $1.
 
-**Special Campaigns:**
-To celebrate the opening of two new service stations, Texaco is offering users the opportunity to earn additional points or cashback through a special campaign:
-- **Branch 1 (May 15-30):** Users will earn double points or cashback for all purchases made during this period.
-- **Branch 2 (May 15-20, purchases > $20,000):** Users will receive an extra 30% in points or cashback for purchases exceeding $20,000.
+**Campañas Especiales:**
+Para celebrar la apertura de dos nuevas estaciones de servicio, Texaco está ofreciendo a los usuarios la oportunidad de ganar puntos o cashback adicionales a través de una campaña especial:
+- **Sucursal 1 (15-30 de mayo):** Los usuarios ganarán el doble de puntos o cashback por todas las compras realizadas durante este período.
+- **Sucursal 2 (15-20 de mayo, compras > $20,000):** Los usuarios recibirán un 30% adicional en puntos o cashback por compras que excedan los $20,000.
+
+
+## Requerimientos
+
+- Golang 1.21 o superior (https://golang.org/dl/)
+- Docker (https://docs.docker.com/get-docker/)
+- Docker Compose (https://docs.docker.com/compose/install/)
+
+## Instalación
+
+1. Clona este repositorio en tu máquina local.
+2. Ubica tu terminal en el directorio del repositorio `go-leal-challenge`.
+### Construir el proyecto localmente usando docker compose:
+
+```console
+docker-compose up
+```
+#### Puede tomar un tiempo mientras descarga las dependencias y construye el proyecto.
+En este paso, se está realizando tambien el cargue del archivo [up.sql](internal/db/postgres/up.sql) con configuraciones de la base de datos.
+
+
+## Uso
+
+Despues de haber ejecutado el proyecto localmente con `docker compose` puedes validar por consola que estén los dos servicios arriba con el comando:
+```bash
+docker compose ps
+```
+Si los servicios se encuentran listos para recibir peticiones, deberá arrojar el resultado de los dos:
+```bash     
+```
+
+## Consumir los servicios REST
+
+Para ejecutar el servicio local, se puede hacer uso del software [curl](https://curl.se/).
+
+### Consultar Comercios
+para consultar los datos de los comercios configurados ejecutamos el siguiente comando:
+```bash
+curl -s localhost:8010/business/
+```
+
+obtenemos una salida similar a la siguiente:
+```json
+[
+  {
+    "id": "10cb9df0-1a5a-4f38-a5bf-df55bdb4da98",
+    "name": "Texaco"
+  }
+]
+```
+
+### Consultar Sucursales
+para consultar los datos de las sucursales necesitamos usar el `id` de la consulta previa y ejecutamos el siguiente comando:
+```bash
+curl -s localhost:8010/branch/business/10cb9df0-1a5a-4f38-a5bf-df55bdb4da98
+```
+
+obtenemos una salida similar a la siguiente:
+```json
+[
+  {
+    "id": "e84bd814-981c-4baf-8a11-fbf969b95b02",
+    "name": "Sucursal 1",
+    "business_id": "10cb9df0-1a5a-4f38-a5bf-df55bdb4da98"
+  },
+  {
+    "id": "2a07465b-9f9d-4bec-aaf3-0b1b307bad6a",
+    "name": "Sucursal 2",
+    "business_id": "10cb9df0-1a5a-4f38-a5bf-df55bdb4da98"
+  }
+]
+```
+
+

@@ -23,9 +23,7 @@ import (
 	"gorm.io/gorm"
 )
 
-var gormConfiguration = &gorm.Config{
-	//TODO: Not implemented yet
-}
+var gormConfiguration = &gorm.Config{}
 
 type postgresDatasource struct {
 	user     string

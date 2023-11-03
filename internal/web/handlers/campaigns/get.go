@@ -2,7 +2,6 @@ package campaigns
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -56,7 +55,6 @@ func GetAllByBusinessID() gin.HandlerFunc {
 		if err != nil {
 			c.JSON(400, fmt.Sprintf("invalid id: %s\n", err))
 		}
-		log.Println("****** getting campaings with business id ", ID)
 		businesses, err := usecases.GetCampaignsByBusinessID(uuidID)
 		if err != nil {
 			// Validate not found

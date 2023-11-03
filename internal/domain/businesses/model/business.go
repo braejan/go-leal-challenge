@@ -4,6 +4,7 @@ import (
 	branchesModel "github.com/braejan/go-leal-challenge/internal/domain/branches/model"
 	campaignModel "github.com/braejan/go-leal-challenge/internal/domain/campaigns/model"
 	lealcoinModel "github.com/braejan/go-leal-challenge/internal/domain/lealcoins/model"
+	lealpointModel "github.com/braejan/go-leal-challenge/internal/domain/lealpoints/model"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
@@ -15,4 +16,5 @@ type Business struct {
 	Branches   []*branchesModel.Branch   `json:"-"`
 	Campaigns  []*campaignModel.Campaign `json:"-"`
 	LealCoin   *lealcoinModel.LealCoin   `json:"-"`
+	LealPoint  *lealpointModel.LealPoint `json:"-"`
 }
