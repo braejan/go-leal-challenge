@@ -17,4 +17,5 @@ type Campaign struct {
 	EndDate          time.Time  `json:"end_date" gorm:"not null"`
 	RewardMultiplier float64    `json:"reward_multiplier" gorm:"not null"`
 	MinAmount        float64    `json:"min_amount" gorm:"not null"`
+	Completed        bool       `json:"completed" gorm:"not null;index"`
 }

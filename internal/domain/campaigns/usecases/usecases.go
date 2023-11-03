@@ -55,6 +55,7 @@ func (u *campaingUsecases) CreateNewCampaign(campaign model.Campaign) (err error
 		err = gorm.ErrInvalidValue
 		return
 	}
+	campaign.Completed = false
 	return u.CampaignRepository.CreateCampaign(context.Background(), &campaign)
 }
 func (u *campaingUsecases) GetCampaignsByBusinessID(ID uuid.UUID) (campaigns []model.Campaign, err error) {

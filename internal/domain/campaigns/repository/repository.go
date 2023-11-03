@@ -14,4 +14,5 @@ type CampaignRepository interface {
 	DeleteCampaign(ctx context.Context, id uuid.UUID) error
 	ListCampaignsByBusinessID(ctx context.Context, businessID uuid.UUID) ([]*model.Campaign, error)
 	ListCampaignsByBranchID(ctx context.Context, branchID uuid.UUID) ([]*model.Campaign, error)
+	GetUncompletedCampaigns(ctx context.Context) (campaigns []*model.Campaign, err error)
 }

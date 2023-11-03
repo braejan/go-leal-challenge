@@ -87,3 +87,14 @@ func (repo *postgresCampaignRepository) ListCampaignsByBranchID(ctx context.Cont
 	}
 	return
 }
+
+func (repo *postgresCampaignRepository) GetUncompletedCampaigns(ctx context.Context) (campaigns []*model.Campaign, err error) {
+	campaign := &model.Campaign{
+		Completed: false,
+	}
+	err = repo.db.WithContext(ctx).Find(&campaigns, campaign).Error
+	if err != nil {
+		return nil, err
+	}
+	return
+}
