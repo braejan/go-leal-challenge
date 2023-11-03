@@ -5,6 +5,7 @@ import (
 
 	"github.com/braejan/go-leal-challenge/cmd/web/branches"
 	"github.com/braejan/go-leal-challenge/cmd/web/businesses"
+	"github.com/braejan/go-leal-challenge/cmd/web/campaigns"
 	"github.com/braejan/go-leal-challenge/internal/db/postgres"
 	"github.com/gin-gonic/gin"
 )
@@ -17,5 +18,6 @@ func main() {
 	}
 	businesses.RegisterRoutes(r)
 	branches.RegisterRoutes(r)
+	campaigns.RegisterRoutes(r)
 	r.Run(":8010")
 }

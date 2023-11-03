@@ -3,9 +3,13 @@ package usecases
 import (
 	"context"
 
+	branchRepo "github.com/braejan/go-leal-challenge/internal/domain/branches/repository"
+	branchPostgres "github.com/braejan/go-leal-challenge/internal/domain/branches/repository/postgres"
+	businessRepo "github.com/braejan/go-leal-challenge/internal/domain/businesses/repository"
+	businessPostgres "github.com/braejan/go-leal-challenge/internal/domain/businesses/repository/postgres"
 	"github.com/braejan/go-leal-challenge/internal/domain/campaigns/model"
-	"github.com/braejan/go-leal-challenge/internal/domain/campaigns/repository"
-	"github.com/braejan/go-leal-challenge/internal/domain/campaigns/repository/postgres"
+	campaignRepo "github.com/braejan/go-leal-challenge/internal/domain/campaigns/repository"
+	campaignPostgres "github.com/braejan/go-leal-challenge/internal/domain/campaigns/repository/postgres"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
@@ -18,18 +22,24 @@ type CampaignUsecases interface {
 }
 
 type campaingUsecases struct {
-	repo repository.CampaignRepository
+	campaignRepo.CampaignRepository
+	businessRepo.BusinessRepository
+	branchRepo.BranchRepository
 }
 
 func NewCampaignUsecases(db *gorm.DB) CampaignUsecases {
-	repo := postgres.NewPostgresCampaignRepository(db)
+	repoCampaign := campaignPostgres.NewPostgresCampaignRepository(db)
+	repoBusiness := businessPostgres.NewPostgresBusinessRepository(db)
+	repoBranch := branchPostgres.NewPostgresBranchRepository(db)
 	return &campaingUsecases{
-		repo: repo,
+		CampaignRepository: repoCampaign,
+		BusinessRepository: repoBusiness,
+		BranchRepository:   repoBranch,
 	}
 }
 
 func (u *campaingUsecases) GetCampaignByID(ID uuid.UUID) (campaign model.Campaign, err error) {
-	found, err := u.repo.GetCampaignByID(context.Background(), ID)
+	found, err := u.CampaignRepository.GetCampaignByID(context.Background(), ID)
 	if err != nil {
 		return
 	}
@@ -37,10 +47,22 @@ func (u *campaingUsecases) GetCampaignByID(ID uuid.UUID) (campaign model.Campaig
 	return
 }
 func (u *campaingUsecases) CreateNewCampaign(campaign model.Campaign) (err error) {
-	return u.repo.CreateCampaign(context.Background(), &campaign)
+	found, err := u.BranchRepository.GetBranchByID(context.Background(), *campaign.BranchID)
+	if err != nil {
+		return
+	}
+	if found.BusinessID != *campaign.BusinessID {
+		err = gorm.ErrInvalidValue
+		return
+	}
+	return u.CampaignRepository.CreateCampaign(context.Background(), &campaign)
 }
 func (u *campaingUsecases) GetCampaignsByBusinessID(ID uuid.UUID) (campaigns []model.Campaign, err error) {
-	found, err := u.repo.ListCampaignsByBusinessID(context.Background(), ID)
+	_, err = u.BusinessRepository.GetBusinessByID(context.Background(), ID)
+	if err != nil {
+		return nil, err
+	}
+	found, err := u.CampaignRepository.ListCampaignsByBusinessID(context.Background(), ID)
 	if err != nil {
 		return
 	}
@@ -51,7 +73,11 @@ func (u *campaingUsecases) GetCampaignsByBusinessID(ID uuid.UUID) (campaigns []m
 	return
 }
 func (u *campaingUsecases) GetCampaignsByBranchID(ID uuid.UUID) (campaigns []model.Campaign, err error) {
-	found, err := u.repo.ListCampaignsByBranchID(context.Background(), ID)
+	_, err = u.BranchRepository.GetBranchByID(context.Background(), ID)
+	if err != nil {
+		return nil, err
+	}
+	found, err := u.CampaignRepository.ListCampaignsByBranchID(context.Background(), ID)
 	if err != nil {
 		return
 	}

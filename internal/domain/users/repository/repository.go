@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 
-	"github.com/braejan/go-leal-challenge/internal/domain/user/model"
+	"github.com/braejan/go-leal-challenge/internal/domain/users/model"
 	"github.com/google/uuid"
 )
 

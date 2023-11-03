@@ -32,7 +32,7 @@ func (repo *postgresCampaignRepository) GetCampaignByID(ctx context.Context, ID 
 		return
 	}
 	campaign = &model.Campaign{
-		ID: ID,
+		ID: &ID,
 	}
 	err = repo.db.WithContext(ctx).First(campaign).Error
 	if err != nil {
@@ -41,7 +41,7 @@ func (repo *postgresCampaignRepository) GetCampaignByID(ctx context.Context, ID 
 	return
 }
 func (repo *postgresCampaignRepository) UpdateCampaign(ctx context.Context, campaign *model.Campaign) (err error) {
-	_, err = repo.GetCampaignByID(ctx, campaign.ID)
+	_, err = repo.GetCampaignByID(ctx, *campaign.ID)
 	if err != nil {
 		return
 	}
@@ -53,7 +53,7 @@ func (repo *postgresCampaignRepository) DeleteCampaign(ctx context.Context, ID u
 		return
 	}
 	campaign := &model.Campaign{
-		ID: ID,
+		ID: &ID,
 	}
 	return repo.db.WithContext(ctx).Delete(campaign).Error
 }
@@ -64,7 +64,7 @@ func (repo *postgresCampaignRepository) ListCampaignsByBusinessID(ctx context.Co
 		return
 	}
 	campaign := &model.Campaign{
-		BusinessID: businessID,
+		BusinessID: &businessID,
 	}
 	err = repo.db.WithContext(ctx).Find(&campaigns, campaign).Error
 	if err != nil {
@@ -79,7 +79,7 @@ func (repo *postgresCampaignRepository) ListCampaignsByBranchID(ctx context.Cont
 		return
 	}
 	campaign := &model.Campaign{
-		BranchID: branchID,
+		BranchID: &branchID,
 	}
 	err = repo.db.WithContext(ctx).Find(&campaigns, campaign).Error
 	if err != nil {

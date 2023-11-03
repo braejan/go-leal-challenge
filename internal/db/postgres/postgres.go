@@ -1,15 +1,20 @@
 package postgres
 
 import (
-	"context"
-	"errors"
 	"fmt"
 	"log"
 	"os"
 
+	"github.com/braejan/go-leal-challenge/internal/db/postgres/migration/branches"
+	"github.com/braejan/go-leal-challenge/internal/db/postgres/migration/businesses"
+	"github.com/braejan/go-leal-challenge/internal/db/postgres/migration/transactions"
+	"github.com/braejan/go-leal-challenge/internal/db/postgres/migration/users"
 	branchModel "github.com/braejan/go-leal-challenge/internal/domain/branches/model"
 	businessModel "github.com/braejan/go-leal-challenge/internal/domain/businesses/model"
 	campaignModel "github.com/braejan/go-leal-challenge/internal/domain/campaigns/model"
+	transactionsModel "github.com/braejan/go-leal-challenge/internal/domain/transactions/model"
+	userModel "github.com/braejan/go-leal-challenge/internal/domain/users/model"
+
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -70,55 +75,27 @@ func migrations(db *gorm.DB) (err error) {
 		&businessModel.Business{},
 		&branchModel.Branch{},
 		&campaignModel.Campaign{},
+		&userModel.User{},
+		&transactionsModel.Transaction{},
 	)
 	if err != nil {
-		log.Fatal("Finish automigrate with error", err)
+		log.Fatal("Finish automigrate with error: ", err)
 	}
-	err = businessMigrationData(db)
+	err = businesses.BusinessMigrationData(db)
 	if err != nil {
-		log.Fatal("business migration error", err)
+		log.Fatal("business migration error: ", err)
 	}
-	err = branchMigrationData(db)
+	err = branches.BranchMigrationData(db)
 	if err != nil {
-		log.Fatal("branch migration error", err)
+		log.Fatal("branch migration error: ", err)
 	}
-	return
-}
-
-func businessMigrationData(db *gorm.DB) (err error) {
-	if db.Migrator().HasTable(&businessModel.Business{}) {
-		if err = db.First(&businessModel.Business{}).Error; errors.Is(err, gorm.ErrRecordNotFound) {
-			ctx := context.Background()
-			business := &businessModel.Business{
-				Name: "Texaco",
-			}
-			err = db.WithContext(ctx).Create(business).Error
-		}
+	err = users.UserMigrationData(db)
+	if err != nil {
+		log.Fatal("user migration error: ", err)
 	}
-	return
-}
-
-func branchMigrationData(db *gorm.DB) (err error) {
-	if db.Migrator().HasTable(&branchModel.Branch{}) {
-		if err = db.First(&branchModel.Branch{}).Error; errors.Is(err, gorm.ErrRecordNotFound) {
-			ctx := context.Background()
-			business := &businessModel.Business{}
-			err = db.First(business).Error
-			if err != nil {
-				return
-			}
-			branches := []*branchModel.Branch{
-				{
-					BusinessID: business.ID,
-					Name:       "Sucursal 1",
-				},
-				{
-					BusinessID: business.ID,
-					Name:       "Sucursal 2",
-				},
-			}
-			err = db.WithContext(ctx).Create(branches).Error
-		}
+	err = transactions.TransactionsMigrationData(db)
+	if err != nil {
+		log.Fatal("transactions migration error: ", err)
 	}
 	return
 }
