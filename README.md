@@ -31,7 +31,7 @@ Para celebrar la apertura de dos nuevas estaciones de servicio, Texaco está ofr
 ### Construir el proyecto localmente usando docker compose:
 
 ```console
-docker-compose up
+docker compose up
 ```
 #### Puede tomar un tiempo mientras descarga las dependencias y construye el proyecto.
 En este paso, se está realizando tambien el cargue del archivo [up.sql](internal/db/postgres/up.sql) con configuraciones de la base de datos.
@@ -111,11 +111,12 @@ curl -X POST -H "Content-Type: application/json" -d '{
     "name": "30% Adicional de puntos y cashback!",
     "start_date": "2023-05-15T00:00:00-05:00",
     "end_date": "2023-05-20T23:59:59-05:00",
-    "reward_multiplier": 1.3
+    "reward_multiplier": 1.3,
+    "min_amount": 20000,
 }' http://localhost:8010/campaign/
 ```
 
-### Crear Campañas
+### Consultar Campañas por comercio y/o sucursal
 #### Consultar campañas por comercio
 Para consultar campañas por comercio requerimos del `id` del comercio consultado previamente y ejecutamos el siguiente comando:
 
