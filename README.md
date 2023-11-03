@@ -112,7 +112,7 @@ curl -X POST -H "Content-Type: application/json" -d '{
     "start_date": "2023-05-15T00:00:00-05:00",
     "end_date": "2023-05-20T23:59:59-05:00",
     "reward_multiplier": 1.3,
-    "min_amount": 20000,
+    "min_amount": 20000
 }' http://localhost:8010/campaign/
 ```
 
