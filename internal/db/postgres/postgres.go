@@ -3,7 +3,6 @@ package postgres
 import (
 	"fmt"
 	"log"
-	"os"
 
 	"github.com/braejan/go-leal-challenge/internal/db/postgres/migration/branches"
 	"github.com/braejan/go-leal-challenge/internal/db/postgres/migration/businesses"
@@ -18,6 +17,7 @@ import (
 	lealpointsModel "github.com/braejan/go-leal-challenge/internal/domain/lealpoints/model"
 	transactionsModel "github.com/braejan/go-leal-challenge/internal/domain/transactions/model"
 	userModel "github.com/braejan/go-leal-challenge/internal/domain/users/model"
+	"github.com/braejan/go-leal-challenge/pkg/util"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -33,20 +33,13 @@ type postgresDatasource struct {
 	port     string
 }
 
-func getEnv(key, fallback string) string {
-	if value, ok := os.LookupEnv(key); ok {
-		return value
-	}
-	return fallback
-}
-
 func getDataSourceFromEnv() (datasource *postgresDatasource) {
 	datasource = &postgresDatasource{}
-	datasource.user = getEnv("POSTGRES_USER", "postgres")
-	datasource.password = getEnv("POSTGRES_PASSWORD", "postgres")
-	datasource.database = getEnv("POSTGRES_DATABASE", "leal-challenge-database")
-	datasource.host = getEnv("POSTGRES_HOST", "localhost")
-	datasource.port = getEnv("POSTGRES_PORT", "5432")
+	datasource.user = util.GetEnv("POSTGRES_USER", "postgres")
+	datasource.password = util.GetEnv("POSTGRES_PASSWORD", "postgres")
+	datasource.database = util.GetEnv("POSTGRES_DATABASE", "leal-challenge-database")
+	datasource.host = util.GetEnv("POSTGRES_HOST", "localhost")
+	datasource.port = util.GetEnv("POSTGRES_PORT", "5432")
 	return
 }
 

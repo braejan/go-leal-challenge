@@ -88,3 +88,8 @@ func (u *campaingUsecases) GetCampaignsByBranchID(ID uuid.UUID) (campaigns []mod
 	}
 	return
 }
+
+func (u *campaingUsecases) GetUncompletedCampaigns(ID uuid.UUID) (campaigns []model.Campaign, err error) {
+	//TODO: not implemented yet
+	return
+}
