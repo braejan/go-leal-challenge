@@ -22,8 +22,12 @@ type branchUsecases struct {
 
 func NewBranchUsecases(db *gorm.DB) BranchUsecases {
 	repo := postgres.NewPostgresBranchRepository(db)
+	return NewBranchUsecasesWithRepo(repo)
+}
+
+func NewBranchUsecasesWithRepo(repository repository.BranchRepository) BranchUsecases {
 	return &branchUsecases{
-		repo: repo,
+		repo: repository,
 	}
 }
 
