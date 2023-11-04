@@ -170,3 +170,23 @@ obtenemos una salida similar a la siguiente:
   }
 ]
 ```
+
+### Acumulación de puntos y/o cashback
+
+En la migración se realiza la inserción de transacciones para un mismo usuario en las dos sucursales. El resúmen de las compras es:
+
+Sucursal 1:
+
+Realizó cuatro compras en las siguientes fechas:
+COP $5000 el 1 de mayo de 2023.
+COP $15000 el 15 de mayo de 2023.
+COP $25000 el 25 de mayo de 2023.
+COP $12000 el 30 de mayo de 2023.
+
+Sucursal 2:
+
+Realizó cuatro compras en las siguientes fechas:
+COP $5000 el 1 de mayo de 2023.
+COP $15000 el 15 de mayo de 2023.
+COP $25000 el 25 de mayo de 2023.
+COP $12000 el 30 de mayo de 2023.

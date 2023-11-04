@@ -46,14 +46,14 @@ func GetByBusinessID() gin.HandlerFunc {
 			c.JSON(500, err)
 			return
 		}
-		ID := c.Param("business-id")
+		ID := c.Param("id")
 		if ID == "" {
-			c.JSON(400, "business-id is empty")
+			c.JSON(400, "id is empty")
 			return
 		}
 		uuidID, err := uuid.Parse(ID)
 		if err != nil {
-			c.JSON(400, fmt.Sprintf("invalid business-id: %s\n", err))
+			c.JSON(400, fmt.Sprintf("invalid id: %s\n", err))
 		}
 		branches, err := usecases.GetBranchesByBusinessID(uuidID)
 		if err != nil {
