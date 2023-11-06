@@ -22,8 +22,12 @@ type businessUsecases struct {
 
 func NewBusinessUsecases(db *gorm.DB) (usecases BusinessUsecases) {
 	repo := postgres.NewPostgresBusinessRepository(db)
+	return NewBusinessUsecasesWithRepo(repo)
+}
+
+func NewBusinessUsecasesWithRepo(repository repository.BusinessRepository) BusinessUsecases {
 	return &businessUsecases{
-		repo: repo,
+		repo: repository,
 	}
 }
 
