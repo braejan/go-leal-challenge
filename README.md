@@ -28,6 +28,14 @@ Para celebrar la apertura de dos nuevas estaciones de servicio, Texaco está ofr
 
 1. Clona este repositorio en tu máquina local.
 2. Ubica tu terminal en el directorio del repositorio `go-leal-challenge`.
+
+### Ejecución de pruebas locales:
+La ejecución y compilación del proyecto están agregadas en acciones de Github para push y merge en `main` y `develop`. Para validar las pruebas unitarias ejecutamos el siguiente comando:
+
+```console
+go test -v ./...
+```
+
 ### Construir el proyecto localmente usando docker compose:
 
 ```console
