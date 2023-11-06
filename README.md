@@ -180,4 +180,4 @@ En la migración se realiza la inserción de transacciones para un mismo usuario
 * COP $25000 el 25 de mayo de 2023.
 * COP $12000 el 30 de mayo de 2023.
 
-![Accumulate usecase](docs/images/nombre_de_tu_imagen.png)
+![Accumulate usecase](docs/images/usecase_accumulate.png)
