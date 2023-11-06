@@ -1,5 +1,5 @@
 # Etapa de compilación para el servicio de archivos
-FROM golang:1.21.1-alpine AS build-smb-rest
+FROM golang:1.21.3-alpine AS build-leal-challenge-rest
 
 WORKDIR /app
 
@@ -7,15 +7,15 @@ COPY go.mod go.sum ./
 RUN go mod download
 
 COPY . .
-RUN GOOS=linux go build -o smb-rest ./cmd/rest
+RUN GOOS=linux go build -o leal-challenge-rest ./cmd/web/main.go
 
 # Imagen final para el servicio de archivos
 FROM alpine:latest
 
 WORKDIR /app
 
-COPY --from=build-smb-rest /app/smb-rest .
+COPY --from=build-leal-challenge-rest /app/leal-challenge-rest .
 
 EXPOSE 8010
 
-CMD ["./smb-rest"]
+CMD ["./leal-challenge-rest"]

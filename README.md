@@ -20,7 +20,7 @@ Para celebrar la apertura de dos nuevas estaciones de servicio, Texaco está ofr
 
 ## Requerimientos
 
-- Golang 1.21 o superior (https://golang.org/dl/)
+- Golang 1.21.3 o superior (https://golang.org/dl/)
 - Docker (https://docs.docker.com/get-docker/)
 - Docker Compose (https://docs.docker.com/compose/install/)
 
@@ -44,7 +44,10 @@ Despues de haber ejecutado el proyecto localmente con `docker compose` puedes va
 docker compose ps
 ```
 Si los servicios se encuentran listos para recibir peticiones, deberá arrojar el resultado de los dos:
-```bash     
+```bash
+NAME                           IMAGE                        COMMAND                           SERVICE       CREATED          STATUS                    PORTS
+leal-challenge-lc-database-1   leal-challenge-lc-database   "docker-entrypoint.sh postgres"   lc-database   35 seconds ago   Up 33 seconds (healthy)   0.0.0.0:5432->5432/tcp
+leal-challenge-smb-rest-1      leal-challenge-smb-rest      "./leal-challenge-rest"           smb-rest      35 seconds ago   Up 27 seconds             0.0.0.0:8010->8010/tcp
 ```
 
 ## Consumir los servicios REST
@@ -181,3 +184,29 @@ En la migración se realiza la inserción de transacciones para un mismo usuario
 * COP $12000 el 30 de mayo de 2023.
 
 ![Accumulate usecase](docs/images/usecase_accumulate.png)
+
+#### Consultar acumulados según las transacciones
+Para consultar los acumulados por usuario, en este caso sólo será de manera de información, ya que actualizar los datos hace que no se pueda volver a ejecutar el proceso, esto queda así a propósito.
+
+```bash
+curl -s localhost:8010/accumulate/
+```
+
+En total, este usuario con las transacciones que tiene y las dos campañas asociadas tendrían un acumulado cómo se ve en la imagen del excel:
+
+```json
+{
+  "8cc8b3ce-99c8-4236-829b-ea779c75a3f6": {
+    "total_points": 196,
+    "total_cashback": 196.9
+  }
+}
+```
+
+## Deuda Técnica
+
+Quedan pendiende las siguientes deudas técnicas:
+* Implementar Swagger con Gin para generar documentación de los servicios REST.
+* Completar los unit test faltantes.
+* Actualizar los acumulados que tenga el usuario en sus transacciones y marcarlas para que no las vuelva a tomar otro proceso.
+* El proceso de acumulación de puntos y cashback es ideal migrarlo a una implementación orientada a eventos.
