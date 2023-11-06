@@ -9,7 +9,6 @@ func RegisterRoutes(r *gin.Engine) {
 	business := r.Group("/branch")
 	{
 		business.GET("/:id", handlers.Get())
-		business.GET("/business/:business-id", handlers.GetByBusinessID())
-		business.POST("/", handlers.Create())
+		business.GET("/business/:id", handlers.GetByBusinessID())
 	}
 }

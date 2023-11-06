@@ -10,8 +10,5 @@ func RegisterRoutes(r *gin.Engine) {
 	{
 		business.GET("/:id", handlers.Get())
 		business.GET("/", handlers.GetAll())
-		business.POST("/", handlers.Create())
-		// business.PUT("/:id", handlers.Update())
-		// business.DELETE("/:id", handlers.Delete())
 	}
 }

@@ -39,6 +39,10 @@ func (repo *postgresBusinessRepository) GetBusinessByID(ctx context.Context, ID 
 	return
 }
 func (repo *postgresBusinessRepository) UpdateBusiness(ctx context.Context, business *model.Business) (err error) {
+	if business == nil {
+		err = gorm.ErrInvalidValue
+		return
+	}
 	_, err = repo.GetBusinessByID(ctx, *business.ID)
 	if err != nil {
 		return

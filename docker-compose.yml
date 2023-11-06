@@ -1,38 +1,35 @@
 version: '3'
 name: 'leal-challenge'
 services:
-  smb-database:
+  lc-database:
     build:
       context: ./internal/db/postgres
     ports:
       - '5432:5432'
-    # networks: 
-    #   - leal-challenge-network
+    healthcheck:
+      test: ["CMD", "pg_isready", "-q", "-d", "leal-challenge-database", "-U", "postgres"]
+      interval: 5s
+      timeout: 1s
+      retries: 5
+    networks:
+      - leal-challenge-network
 
-#   smb-rest:
-#     build:
-#       context: ./backend
-#     environment:
-#       - POSTGRES_HOST=smb-database
-#       - POSTGRES_PORT=5432
-#       - POSTGRES_USER=postgres
-#       - POSTGRES_PASSWORD=postgres
-#       - POSTGRES_DATABASE=liwasi-smb-database
-#       - GIN_MODE=release
-#     ports:
-#       - '8010:8010'
-#     networks:
-#       - liwasi-smb-network
-
-#   smb-app-front:
-#     build:
-#       context: ./frontend/liwasi-smb-app
-#     environment:
-#       - SMB_API_REST_HOST=smb-rest
-#     ports:
-#       - '3000:3000'
-#     networks:
-#       - liwasi-smb-network
-
-# networks:
-#   liwasi-smb-network:
+  smb-rest:
+    build:
+      context: ./
+    environment:
+      - POSTGRES_HOST=lc-database
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DATABASE=leal-challenge-database
+      - GIN_MODE=release
+    ports:
+      - '8010:8010'
+    depends_on:
+      lc-database:
+        condition: service_healthy
+    networks:
+      - leal-challenge-network
+networks:
+  leal-challenge-network:

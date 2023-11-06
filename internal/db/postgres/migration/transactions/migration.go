@@ -22,7 +22,7 @@ func generateTransactions(branchID *uuid.UUID, userID *uuid.UUID) []*transaction
 		},
 		{
 			BranchID:     branchID,
-			Amount:       15000,
+			Amount:       23000,
 			UserID:       userID,
 			PurchaseDate: date.AddDate(0, 0, 15),
 		},

@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 
+	"github.com/braejan/go-leal-challenge/cmd/web/accumulate"
 	"github.com/braejan/go-leal-challenge/cmd/web/branches"
 	"github.com/braejan/go-leal-challenge/cmd/web/businesses"
 	"github.com/braejan/go-leal-challenge/cmd/web/campaigns"
@@ -19,5 +20,6 @@ func main() {
 	businesses.RegisterRoutes(r)
 	branches.RegisterRoutes(r)
 	campaigns.RegisterRoutes(r)
+	accumulate.RegisterRoutes(r)
 	r.Run(":8010")
 }
