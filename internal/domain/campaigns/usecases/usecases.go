@@ -3,12 +3,12 @@ package usecases
 import (
 	"context"
 
-	branchRepo "github.com/braejan/go-leal-challenge/internal/domain/branches/repository"
+	branchRepository "github.com/braejan/go-leal-challenge/internal/domain/branches/repository"
 	branchPostgres "github.com/braejan/go-leal-challenge/internal/domain/branches/repository/postgres"
-	businessRepo "github.com/braejan/go-leal-challenge/internal/domain/businesses/repository"
+	businessRepository "github.com/braejan/go-leal-challenge/internal/domain/businesses/repository"
 	businessPostgres "github.com/braejan/go-leal-challenge/internal/domain/businesses/repository/postgres"
 	"github.com/braejan/go-leal-challenge/internal/domain/campaigns/model"
-	campaignRepo "github.com/braejan/go-leal-challenge/internal/domain/campaigns/repository"
+	campaignRepository "github.com/braejan/go-leal-challenge/internal/domain/campaigns/repository"
 	campaignPostgres "github.com/braejan/go-leal-challenge/internal/domain/campaigns/repository/postgres"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
@@ -22,15 +22,22 @@ type CampaignUsecases interface {
 }
 
 type campaingUsecases struct {
-	campaignRepo.CampaignRepository
-	businessRepo.BusinessRepository
-	branchRepo.BranchRepository
+	campaignRepository.CampaignRepository
+	businessRepository.BusinessRepository
+	branchRepository.BranchRepository
 }
 
 func NewCampaignUsecases(db *gorm.DB) CampaignUsecases {
 	repoCampaign := campaignPostgres.NewPostgresCampaignRepository(db)
 	repoBusiness := businessPostgres.NewPostgresBusinessRepository(db)
 	repoBranch := branchPostgres.NewPostgresBranchRepository(db)
+	return NewCampaignUsecasesWithRepo(repoCampaign, repoBusiness, repoBranch)
+}
+func NewCampaignUsecasesWithRepo(
+	repoCampaign campaignRepository.CampaignRepository,
+	repoBusiness businessRepository.BusinessRepository,
+	repoBranch branchRepository.BranchRepository,
+) CampaignUsecases {
 	return &campaingUsecases{
 		CampaignRepository: repoCampaign,
 		BusinessRepository: repoBusiness,
