@@ -243,7 +243,7 @@ func Test_GetUncompletedCampaigns_Err(t *testing.T) {
 	db, _ := gorm.Open(dialector, &gorm.Config{})
 	mock.ExpectQuery("SELECT .+ FROM \"campaigns\" .+").WillReturnError(gorm.ErrInvalidValue)
 	repo := campaignPostgresRepo.NewPostgresCampaignRepository(db)
-	_, err := repo.GetUncompletedCampaigns(context.Background())
+	_, err := repo.GetUnfinishedCampaigns(context.Background(), time.Time{}, uuid.New())
 	assert.NotNil(t, err)
 	assert.Equal(t, gorm.ErrInvalidValue, err)
 }
@@ -261,7 +261,7 @@ func Test_GetUncompletedCampaigns_Sucess(t *testing.T) {
 	expected.AddRow(uuid.New(), time.Time{}, time.Time{}, nil, uuid.New(), uuid.New(), "mi segunda chamba", time.Time{}, time.Time{}, 1.3, 20000, false)
 	mock.ExpectQuery("SELECT .+ FROM \"campaigns\" .+").WillReturnRows(expected)
 	repo := campaignPostgresRepo.NewPostgresCampaignRepository(db)
-	campaigns, err := repo.GetUncompletedCampaigns(context.Background())
+	campaigns, err := repo.GetUnfinishedCampaigns(context.Background(), time.Time{}, uuid.New())
 	assert.Nil(t, err)
 	assert.Len(t, campaigns, 2)
 }

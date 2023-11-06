@@ -99,3 +99,24 @@ func GetAllByBranchID() gin.HandlerFunc {
 		c.JSON(200, businesses)
 	}
 }
+
+func GetAccumulatedTransactionInfo() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		usecases, err := getCampaignUsecases()
+		if err != nil {
+			c.JSON(500, err)
+			return
+		}
+		resume, err := usecases.AccumulatePointsAndCashBack()
+		if err != nil {
+			// Validate not found
+			if err == gorm.ErrRecordNotFound {
+				c.JSON(404, "not found")
+				return
+			}
+			c.JSON(500, err)
+			return
+		}
+		c.JSON(200, resume)
+	}
+}

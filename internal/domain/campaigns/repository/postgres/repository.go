@@ -2,6 +2,7 @@ package postgres
 
 import (
 	"context"
+	"time"
 
 	"github.com/braejan/go-leal-challenge/internal/domain/campaigns/model"
 	"github.com/braejan/go-leal-challenge/internal/domain/campaigns/repository"
@@ -95,11 +96,8 @@ func (repo *postgresCampaignRepository) ListCampaignsByBranchID(ctx context.Cont
 	return
 }
 
-func (repo *postgresCampaignRepository) GetUncompletedCampaigns(ctx context.Context) (campaigns []*model.Campaign, err error) {
-	campaign := &model.Campaign{
-		Completed: false,
-	}
-	err = repo.db.WithContext(ctx).Find(&campaigns, campaign).Error
+func (repo *postgresCampaignRepository) GetUnfinishedCampaigns(ctx context.Context, txDate time.Time, branchID uuid.UUID) (campaigns []*model.Campaign, err error) {
+	err = repo.db.WithContext(ctx).Where("? BETWEEN start_date AND end_date AND branch_id = ?", txDate, branchID).Find(&campaigns).Error
 	if err != nil {
 		return nil, err
 	}

@@ -2,6 +2,7 @@ package mock
 
 import (
 	"context"
+	"time"
 
 	"github.com/braejan/go-leal-challenge/internal/domain/campaigns/model"
 	"github.com/google/uuid"
@@ -59,7 +60,7 @@ func (m *mockCampaignRepository) ListCampaignsByBranchID(ctx context.Context, br
 	}
 	return args.Get(0).([]*model.Campaign), args.Error(1)
 }
-func (m *mockCampaignRepository) GetUncompletedCampaigns(ctx context.Context) ([]*model.Campaign, error) {
+func (m *mockCampaignRepository) GetUnfinishedCampaigns(ctx context.Context, txDate time.Time, branchID uuid.UUID) ([]*model.Campaign, error) {
 	args := m.Called(ctx)
 	return args.Get(0).([]*model.Campaign), args.Error(1)
 }

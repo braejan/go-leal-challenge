@@ -99,7 +99,7 @@ curl -X POST -H "Content-Type: application/json" -d '{
     "name": "Dobla tus puntos",
     "start_date": "2023-05-15T00:00:00-05:00",
     "end_date": "2023-05-30T23:59:59-05:00",
-    "reward_multiplier": 2
+    "reward_multiplier": 1
 }' http://localhost:8010/campaign/
 ```
 
@@ -111,7 +111,7 @@ curl -X POST -H "Content-Type: application/json" -d '{
     "name": "30% Adicional de puntos y cashback!",
     "start_date": "2023-05-15T00:00:00-05:00",
     "end_date": "2023-05-20T23:59:59-05:00",
-    "reward_multiplier": 1.3,
+    "reward_multiplier": 0.3,
     "min_amount": 20000
 }' http://localhost:8010/campaign/
 ```
@@ -135,7 +135,7 @@ obtenemos una salida similar a la siguiente:
     "name": "Dobla tus puntos",
     "start_date": "2023-05-15T00:00:00-05:00",
     "end_date": "2023-05-30T23:59:59-05:00",
-    "reward_multiplier": 2
+    "reward_multiplier": 1
   },
   {
     "id": "45d8ed50-5704-4ce8-8454-95dc5649feb6",
@@ -144,7 +144,7 @@ obtenemos una salida similar a la siguiente:
     "name": "30% Adicional de puntos y cashback!",
     "start_date": "2023-05-15T00:00:00-05:00",
     "end_date": "2023-05-20T23:59:59-05:00",
-    "reward_multiplier": 1.3
+    "reward_multiplier": 0.3
   }
 ]
 ```
@@ -166,27 +166,18 @@ obtenemos una salida similar a la siguiente:
     "name": "30% Adicional de puntos y cashback!",
     "start_date": "2023-05-15T00:00:00-05:00",
     "end_date": "2023-05-20T23:59:59-05:00",
-    "reward_multiplier": 1.3
+    "reward_multiplier": 0.3
   }
 ]
 ```
 
 ### Acumulación de puntos y/o cashback
 
-En la migración se realiza la inserción de transacciones para un mismo usuario en las dos sucursales. El resúmen de las compras es:
+En la migración se realiza la inserción de transacciones para un mismo usuario en las dos sucursales. El resúmen de las transacciones repetidas para cada una de las sucursales es el siguiente:
 
-Sucursal 1:
+* COP $5000 el 1 de mayo de 2023.
+* COP $23000 el 15 de mayo de 2023.
+* COP $25000 el 25 de mayo de 2023.
+* COP $12000 el 30 de mayo de 2023.
 
-Realizó cuatro compras en las siguientes fechas:
-COP $5000 el 1 de mayo de 2023.
-COP $15000 el 15 de mayo de 2023.
-COP $25000 el 25 de mayo de 2023.
-COP $12000 el 30 de mayo de 2023.
-
-Sucursal 2:
-
-Realizó cuatro compras en las siguientes fechas:
-COP $5000 el 1 de mayo de 2023.
-COP $15000 el 15 de mayo de 2023.
-COP $25000 el 25 de mayo de 2023.
-COP $12000 el 30 de mayo de 2023.
+![Accumulate usecase](docs/images/nombre_de_tu_imagen.png)
