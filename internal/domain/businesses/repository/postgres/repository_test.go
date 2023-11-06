@@ -30,7 +30,7 @@ func Test_CreateBusiness_Err_Nil(t *testing.T) {
 
 }
 
-func Test_CreateBranch_Error_Insert(t *testing.T) {
+func Test_CreateBusiness_Error_Insert(t *testing.T) {
 	mockDb, mock, _ := sqlmock.New()
 	defer mockDb.Close()
 	dialector := postgres.New(postgres.Config{
@@ -48,7 +48,7 @@ func Test_CreateBranch_Error_Insert(t *testing.T) {
 	assert.Equal(t, gorm.ErrInvalidDB, err)
 }
 
-func Test_GetBranchByID_Invalid_ID(t *testing.T) {
+func Test_GetBusinessByID_Invalid_ID(t *testing.T) {
 	mockDb, _, _ := sqlmock.New()
 	defer mockDb.Close()
 	dialector := postgres.New(postgres.Config{
@@ -62,7 +62,7 @@ func Test_GetBranchByID_Invalid_ID(t *testing.T) {
 	assert.Equal(t, gorm.ErrInvalidValue, err)
 }
 
-func Test_GetBranchByID_Sucess(t *testing.T) {
+func Test_GetBusinessByID_Sucess(t *testing.T) {
 	mockDb, mock, _ := sqlmock.New()
 	defer mockDb.Close()
 	dialector := postgres.New(postgres.Config{
@@ -80,7 +80,7 @@ func Test_GetBranchByID_Sucess(t *testing.T) {
 	assert.Equal(t, ID.String(), business.ID.String())
 }
 
-func Test_GetBranchByID_Error(t *testing.T) {
+func Test_GetBusinessByID_Error(t *testing.T) {
 	mockDb, mock, _ := sqlmock.New()
 	defer mockDb.Close()
 	dialector := postgres.New(postgres.Config{
@@ -97,7 +97,7 @@ func Test_GetBranchByID_Error(t *testing.T) {
 	assert.Nil(t, business)
 }
 
-func Test_UpdateBranch_Error_Nil(t *testing.T) {
+func Test_UpdateBusiness_Error_Nil(t *testing.T) {
 	mockDb, _, _ := sqlmock.New()
 	defer mockDb.Close()
 	dialector := postgres.New(postgres.Config{
@@ -112,7 +112,7 @@ func Test_UpdateBranch_Error_Nil(t *testing.T) {
 	assert.Equal(t, gorm.ErrInvalidValue, err)
 }
 
-func Test_UpdateBranch_Sucess(t *testing.T) {
+func Test_UpdateBusiness_Sucess(t *testing.T) {
 	mockDb, mock, _ := sqlmock.New()
 	defer mockDb.Close()
 	dialector := postgres.New(postgres.Config{
@@ -139,7 +139,7 @@ func Test_UpdateBranch_Sucess(t *testing.T) {
 	assert.Nil(t, err)
 }
 
-func Test_DeleteBranchByID_Sucess(t *testing.T) {
+func Test_DeleteBusinessByID_Sucess(t *testing.T) {
 	mockDb, mock, _ := sqlmock.New()
 	defer mockDb.Close()
 	dialector := postgres.New(postgres.Config{
@@ -166,7 +166,7 @@ func Test_DeleteBranchByID_Sucess(t *testing.T) {
 	assert.Nil(t, err)
 }
 
-func Test_GetBranchesByBusinessID_Sucess(t *testing.T) {
+func Test_GetBusinessesByBusinessID_Sucess(t *testing.T) {
 	mockDb, mock, _ := sqlmock.New()
 	defer mockDb.Close()
 	dialector := postgres.New(postgres.Config{

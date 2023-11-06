@@ -26,6 +26,7 @@ func (repo *postgresCampaignRepository) CreateCampaign(ctx context.Context, camp
 	}
 	return repo.db.WithContext(ctx).Create(campaign).Error
 }
+
 func (repo *postgresCampaignRepository) GetCampaignByID(ctx context.Context, ID uuid.UUID) (campaign *model.Campaign, err error) {
 	if ID == uuid.Nil {
 		err = gorm.ErrInvalidValue
@@ -36,18 +37,24 @@ func (repo *postgresCampaignRepository) GetCampaignByID(ctx context.Context, ID 
 	}
 	err = repo.db.WithContext(ctx).First(campaign).Error
 	if err != nil {
-		return
+		return nil, err
 	}
 	return
 }
+
 func (repo *postgresCampaignRepository) UpdateCampaign(ctx context.Context, campaign *model.Campaign) (err error) {
+	if campaign == nil {
+		err = gorm.ErrInvalidValue
+		return
+	}
 	_, err = repo.GetCampaignByID(ctx, *campaign.ID)
 	if err != nil {
 		return
 	}
 	return repo.db.WithContext(ctx).Save(campaign).Error
 }
-func (repo *postgresCampaignRepository) DeleteCampaign(ctx context.Context, ID uuid.UUID) (err error) {
+
+func (repo *postgresCampaignRepository) DeleteCampaignByID(ctx context.Context, ID uuid.UUID) (err error) {
 	_, err = repo.GetCampaignByID(ctx, ID)
 	if err != nil {
 		return
